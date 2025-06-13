@@ -1,15 +1,15 @@
 module.exports = (bot, options) => {
     const log = bot.sendLog;
 
-    const joinPattern = /^(?:\[\*\]|›)\s*(\w{3,16})\s+присоединился к клану/i;
 
-    const leavePattern = /^(\w{3,16})\s+покинул клан/i;
+    const joinPattern = /(\w{3,16})\s+присоедин[ие]лся к клану/i;
 
-    const kickPattern = /^(\w{3,16})\s+был исключен из клана игроком\s+(\w{3,16})/i;
+    const leavePattern = /(\w{3,16})\s+покинул клан/i;
+
+    const kickPattern = /(\w{3,16})\s+был исключен из клана игроком\s+(\w{3,16})/i;
 
     const messageHandler = (rawMessageText) => {
         const cleanMessage = rawMessageText.trim();
-
         let match;
 
         match = cleanMessage.match(joinPattern);

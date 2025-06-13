@@ -1,5 +1,5 @@
 {
-    "name": "clan-events-parser",
+    "name": "clan-events-keksik",
     "version": "1.0.0",
     "description": "Системный плагин-парсер, который анализирует чат и генерирует события о входе, выходе и исключении игроков из клана.",
     "main": "index.js",

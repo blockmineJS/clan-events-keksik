@@ -1,0 +1,14 @@
+{
+    "name": "clan-events-parser",
+    "version": "1.0.0",
+    "description": "Системный плагин-парсер, который анализирует чат и генерирует события о входе, выходе и исключении игроков из клана.",
+    "main": "index.js",
+    "botpanel": {
+      "supportedHosts": [
+        "mc.mineblaze.net",
+        "mc.masedworld.net",
+        "mc.cheatmine.net",
+        "mc.dexland.org"
+      ]
+    }
+  }

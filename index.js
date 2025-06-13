@@ -1,7 +1,7 @@
 module.exports = (bot, options) => {
     const log = bot.sendLog;
 
-
+    
     const joinPattern = /(\w{3,16})\s+присоедин[ие]лся к клану/i;
 
     const leavePattern = /(\w{3,16})\s+покинул клан/i;
@@ -9,10 +9,9 @@ module.exports = (bot, options) => {
     const kickPattern = /(\w{3,16})\s+был исключен из клана игроком\s+(\w{3,16})/i;
 
     const messageHandler = (rawMessageText) => {
-        const cleanMessage = rawMessageText.trim();
         let match;
 
-        match = cleanMessage.match(joinPattern);
+        match = rawMessageText.match(joinPattern);
         if (match) {
             const username = match[1];
             log(`[ClanParser] Обнаружен вход в клан: ${username}`);
@@ -20,7 +19,7 @@ module.exports = (bot, options) => {
             return;
         }
 
-        match = cleanMessage.match(leavePattern);
+        match = rawMessageText.match(leavePattern);
         if (match) {
             const username = match[1];
             log(`[ClanParser] Обнаружен выход из клана: ${username}`);
@@ -28,7 +27,7 @@ module.exports = (bot, options) => {
             return;
         }
 
-        match = cleanMessage.match(kickPattern);
+        match = rawMessageText.match(kickPattern);
         if (match) {
             const username = match[1];
             const kickedBy = match[2];

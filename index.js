@@ -1,18 +1,15 @@
 module.exports = (bot, options) => {
     const log = bot.sendLog;
 
-
-    const joinPattern = /^(?:\[\*\]|›)\s*(\S+)\s+присоедин[ие]лся к клану/i;
-
-    const leavePattern = /^(?:›\s*)?(\S+)\s+покинул клан/i;
-
-    const kickPattern = /^(\S+)\s+был исключен из клана игроком\s+(\S+)/i;
-
+    const joinPattern = /(\S+)\s+присое?д[ие]нился к клану/i;
+    const leavePattern = /(\S+)\s+покинул клан/i;
+    const kickPattern = /(\S+)\s+был исключен из клана игроком\s+(\S+)/i;
 
     const messageHandler = (rawMessageText) => {
+        const cleanMessage = rawMessageText.trim();
         let match;
 
-        match = rawMessageText.match(joinPattern);
+        match = cleanMessage.match(joinPattern);
         if (match) {
             const username = match[1];
             log(`[ClanParser] Обнаружен вход в клан: ${username}`);
@@ -20,7 +17,7 @@ module.exports = (bot, options) => {
             return;
         }
 
-        match = rawMessageText.match(leavePattern);
+        match = cleanMessage.match(leavePattern);
         if (match) {
             const username = match[1];
             log(`[ClanParser] Обнаружен выход из клана: ${username}`);
@@ -28,7 +25,7 @@ module.exports = (bot, options) => {
             return;
         }
 
-        match = rawMessageText.match(kickPattern);
+        match = cleanMessage.match(kickPattern);
         if (match) {
             const username = match[1];
             const kickedBy = match[2];
@@ -42,8 +39,8 @@ module.exports = (bot, options) => {
 
     bot.once('end', () => {
         bot.events.removeListener('core:raw_message', messageHandler);
-        log('[ClanParser] Плагин выгружен, слушатель сообщений отключен.');
+        log('[ClanParser] Плагин выгружен.');
     });
 
-    log('[ClanParser] Плагин для отслеживания событий клана загружен и готов к работе.');
+    log('[ClanParser] Плагин для отслеживания событий клана загружен (улучшенная версия).');
 };

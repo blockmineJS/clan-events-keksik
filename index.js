@@ -11,6 +11,7 @@ module.exports = (bot, options) => {
     const messageHandler = (rawMessageText) => {
         let match;
 
+
         match = rawMessageText.match(joinPattern);
         if (match) {
             const username = match[1];

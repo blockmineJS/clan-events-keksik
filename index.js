@@ -1,11 +1,16 @@
 module.exports = (bot, options) => {
     const log = bot.sendLog;
 
+    if (bot.clanEventsParser_messageHandler) {
+        bot.events.removeListener('core:raw_message', bot.clanEventsParser_messageHandler);
+        log('[ClanParser] Старый обработчик событий удален для перезагрузки.');
+    }
+
     const joinPattern = /(\S+)\s+присое?д[ие]нился к клану/i;
     const leavePattern = /(\S+)\s+покинул клан/i;
     const kickPattern = /(\S+)\s+был исключен из клана игроком\s+(\S+)/i;
 
-    const messageHandler = (rawMessageText) => {
+    bot.clanEventsParser_messageHandler = (rawMessageText) => {
         const cleanMessage = rawMessageText.trim();
         let match;
 
@@ -35,11 +40,14 @@ module.exports = (bot, options) => {
         }
     };
 
-    bot.events.on('core:raw_message', messageHandler);
+    bot.events.on('core:raw_message', bot.clanEventsParser_messageHandler);
 
     bot.once('end', () => {
-        bot.events.removeListener('core:raw_message', messageHandler);
-        log('[ClanParser] Плагин выгружен.');
+        if (bot.clanEventsParser_messageHandler) {
+            bot.events.removeListener('core:raw_message', bot.clanEventsParser_messageHandler);
+            delete bot.clanEventsParser_messageHandler;
+            log('[ClanParser] Плагин выгружен, слушатель отключен.');
+        }
     });
 
     log('[ClanParser] Плагин для отслеживания событий клана загружен.');
